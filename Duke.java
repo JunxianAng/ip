@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Duke {
     public static void main(String[] args) {
@@ -14,13 +15,29 @@ public class Duke {
 
         Scanner in = new Scanner(System.in);
         Boolean Bye = false;
+        int Count = 0;
+        String[] List = new String[10];
+
         while (!Bye){
             String line = in.nextLine();
             if (line.equals("bye")){
                 Bye = true;
                 break;
             }
-            System.out.println(line);
+
+            if (line.equals("list")){
+                for (int i = 0; i<Count; i++){
+                    System.out.println((i+1) + "." + " " + List[i]);
+                }
+                continue;
+            }
+
+            List[Count] = line;
+            Count += 1;
+
+
+            System.out.println("added: " +line);
+
         }
 
         System.out.println("Bye. Hope to see you again soon!");
