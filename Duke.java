@@ -3,30 +3,12 @@ import java.util.Arrays;
 
 public class Duke {
 
-    public static class Task{
-        protected String description;
-        protected boolean isDone;
+    private static int Count = 0;
+    private static Task[] List = new Task[10]; //creating list of Task for inputs
 
-        public Task(String description) {
-            this.description = description;
-            this.isDone = false;
-        }
-
-        public String getStatusIcon() {
-            return (isDone ? "\u2713" : "\u2718"); //return tick or X symbols
-        }
-
-        public String markAsDone(){
-            this.isDone = true;
-            int divider = description.indexOf("]");
-            this.description = description.substring(divider+2);
-
-            System.out.println("Nice! I've marked this task as done: ");
-            System.out.println("\t [\u2713]" + description);
-            String Icon = "[" + getStatusIcon() + "] " + description;
-            return Icon;
-
-        }
+    //add task object into list
+    public static void addList(Task s){
+        List[Count] = s;
     }
 
 
@@ -42,44 +24,77 @@ public class Duke {
         System.out.println("What can I do for you?");
 
         Scanner in = new Scanner(System.in);
-        Boolean Bye = false;
-        int Count = 0;
-        String[] List = new String[10];
+        Boolean isBye = false;
 
-        while (!Bye){
+
+
+        while (!isBye){
             String line = in.nextLine();
-            if (line.equals("bye")){
-                Bye = true;
-                break;
-            }
 
+            if (line.equals("bye")){
+                isBye = true;
+                break;
+            }//end programme
+
+            //print out list
             if (line.equals("list")){
-                for (int i = 0; i<Count; i++){
-                    System.out.println((i+1) + "." + List[i]);
+                for (int i = 0; i< Count; i++){
+                    System.out.print((i+1) + ".");
+                    List[i].printStatus();
                 }
                 continue;
             }
 
+            // mark description in list as done
             if (line.contains("done")){
                 int divider = line.indexOf(" ");
                 String index = line.substring(divider+1);
                 int x = Integer.parseInt(index);
 
-                Task t = new Task(List[x-1]);
-                String Icon = t.markAsDone();
-                List[x-1] = Icon;
+                List[x-1].setDone();
+
+            }
+
+            if (line.contains("todo")){
+                int divider = line.indexOf(" ");
+                String index = line.substring(divider+1);
+
+                addList(new Todo(index));
+                List[Count].printAction();
+                Count++;
                 continue;
             }
 
-            List[Count] = "[\u2718] "+ line;
-            Count += 1;
+            if (line.contains("deadline")){
+                int divider = line.indexOf(" ");
+                String index = line.substring(divider + 1);
 
+                int divider2 = index.indexOf("/");
+                String index2 = index.substring(0,divider2 - 1);
+                String deadline =  index.substring(divider2 + 4);
 
-            System.out.println("added: " +line);
+                addList(new deadline(index2,deadline));
+                List[Count].printAction();
+                Count++;
+                continue;
+             }
+
+            if (line.contains("event")){
+                int divider = line.indexOf(" ");
+                String index = line.substring(divider + 1);
+
+                int divider2 = index.indexOf("/");
+                String index2 = index.substring(0,divider2 - 1);
+                String deadline =  index.substring(divider2 + 4);
+
+                addList(new event(index2,deadline));
+                List[Count].printAction();
+                Count++;
+                continue;
+            }
 
         }
 
         System.out.println("Bye. Hope to see you again soon!");
     }
 }
-//test3
