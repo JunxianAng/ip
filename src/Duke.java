@@ -1,10 +1,10 @@
 import java.util.Scanner;
-import java.util.Arrays;
 
 public class Duke {
 
     private static int Count = 0;
     private static Task[] List = new Task[10]; //creating list of Task for inputs
+    private static Boolean isBye = false;
 
     //add task object into list
     public static void addList(Task s){
@@ -24,8 +24,6 @@ public class Duke {
         System.out.println("What can I do for you?");
 
         Scanner in = new Scanner(System.in);
-        Boolean isBye = false;
-
 
 
         while (!isBye){
@@ -37,16 +35,16 @@ public class Duke {
             }//end programme
 
             //print out list
-            if (line.equals("list")){
+            else if (line.equals("list")){
                 for (int i = 0; i< Count; i++){
                     System.out.print((i+1) + ".");
                     List[i].printStatus();
                 }
-                continue;
+                //continue;
             }
 
             // mark description in list as done
-            if (line.contains("done")){
+            else if (line.contains("done")){
                 int divider = line.indexOf(" ");
                 String index = line.substring(divider+1);
                 int x = Integer.parseInt(index);
@@ -55,42 +53,53 @@ public class Duke {
 
             }
 
-            if (line.contains("todo")){
-                int divider = line.indexOf(" ");
-                String index = line.substring(divider+1);
+            else if (line.contains("todo")){
+                if (line.trim().equals("todo")){
+                    System.out.println("OOPS!! The description of a todo cannot be empty.");
+                    //continue;
+                }
+                else {
+                    int divider = line.indexOf(" ");
+                    String index = line.substring(divider + 1);
 
-                addList(new Todo(index));
-                List[Count].printAction();
-                Count++;
-                continue;
+                    addList(new Todo(index));
+                    List[Count].printAction();
+                    Count++;
+                    //continue;
+                }
             }
 
-            if (line.contains("deadline")){
+            else if (line.contains("deadline")){
                 int divider = line.indexOf(" ");
-                String index = line.substring(divider + 1);
+                String action = line.substring(divider + 1);
 
-                int divider2 = index.indexOf("/");
-                String index2 = index.substring(0,divider2 - 1);
-                String deadline =  index.substring(divider2 + 4);
+                int divider2 = action.indexOf("/");
+                String action2 = action.substring(0,divider2 - 1);
+                String deadline =  action.substring(divider2 + 4);
 
-                addList(new deadline(index2,deadline));
+                addList(new deadline(action2,deadline));
                 List[Count].printAction();
                 Count++;
-                continue;
+                //continue;
              }
 
-            if (line.contains("event")){
+            else if (line.contains("event")){
                 int divider = line.indexOf(" ");
-                String index = line.substring(divider + 1);
+                String action = line.substring(divider + 1);
 
-                int divider2 = index.indexOf("/");
-                String index2 = index.substring(0,divider2 - 1);
-                String deadline =  index.substring(divider2 + 4);
+                int divider2 = action.indexOf("/");
+                String action2 = action.substring(0,divider2 - 1);
+                String deadline =  action.substring(divider2 + 4);
 
-                addList(new event(index2,deadline));
+                addList(new event(action2,deadline));
                 List[Count].printAction();
                 Count++;
-                continue;
+                //continue;
+            }
+
+            else {
+                System.out.println("OOPS!! I'm sorry, but I don't know what that means :-(");
+                //continue;
             }
 
         }
