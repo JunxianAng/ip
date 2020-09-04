@@ -11,6 +11,7 @@ public class Todo extends Task {
         super.printStatus();
         System.out.println();
     }
+
     public void printAction(){
         super.printAction();
         printStatus();
