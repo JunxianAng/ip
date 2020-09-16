@@ -10,7 +10,7 @@ public class event extends Task{
     public void printStatus(){
         System.out.print("[E]");
         super.printStatus();
-        System.out.println(" (at: " + byDate + ")" );
+        System.out.println(" -at: " + byDate);
     }
 
     public void printAction(){

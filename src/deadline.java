@@ -10,7 +10,7 @@ public class deadline extends Task{
     public void printStatus(){
         System.out.print("[D]");
         super.printStatus();
-        System.out.println(" (by: " + byDate + ")" );
+        System.out.println(" -by: " + byDate);
     }
 
     public void printAction(){
