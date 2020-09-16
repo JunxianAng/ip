@@ -1,4 +1,10 @@
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Duke {
 
@@ -16,15 +22,21 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello! I'm Duke");
+
+        try {
+            printFileContents("src/tasks.txt");
+        } catch (FileNotFoundException e) {
+            System.out.println("tasks.txt file not found");
+        }
+
         System.out.println("What can I do for you?");
 
         Scanner in = new Scanner(System.in);
 
-
-        while (!isBye){
+        while (!isBye) {
             String line = in.nextLine();
 
-            if (line.equals("bye")){
+            if (line.equals("bye")) {
                 isBye = true;
                 break;
             }//end programme
@@ -54,45 +66,50 @@ public class Duke {
             else if (line.contains("event")){
                 callEvent(line);
             }
-
             else {
                 System.out.println("OOPS!! I'm sorry, but I don't know what that means :-(");
                 //continue;
             }
         }
 
+        for (int i=0;i<Count;i++) {
+            try {
+                writeToFile("src/tasks.txt", List[i].statusString());
+            } catch (IOException e) {
+                System.out.println("Something went wrong: " + e.getMessage());
+            }
+        }
         System.out.println("Bye. Hope to see you again soon!");
     }
 
     //add task object into list method
-    public static void addList(Task s){
+    public static void addList(Task s) {
         List[Count] = s;
     }
 
     // print out list method
-    public static void callList(){
-        for (int i = 0; i< Count; i++){
-            System.out.print((i+1) + ".");
+    public static void callList() {
+        for (int i = 0; i < Count; i++) {
+            System.out.print((i + 1) + ".");
             List[i].printStatus();
         }
     }
 
     //set task done method
-    public static void callDone(String line){
+    public static void callDone(String line) {
         int divider = line.indexOf(" ");
-        String index = line.substring(divider+1);
+        String index = line.substring(divider + 1);
         int x = Integer.parseInt(index);
 
-        List[x-1].setDone();
+        List[x - 1].setDone();
     }
 
     //todo method
-    public static void callToDo(String line){
-        if (line.trim().equals("todo")){
+    public static void callToDo(String line) {
+        if (line.trim().equals("todo")) {
             System.out.println("OOPS!! The description of a todo cannot be empty.");
             //continue;
-        }
-        else {
+        } else {
             int divider = line.indexOf(" ");
             String index = line.substring(divider + 1);
 
@@ -104,17 +121,16 @@ public class Duke {
     }
 
     //deadline method -- deadline action /by datetime
-    public static void callDeadline(String line){
-        if (line.trim().equals("deadline")){
+    public static void callDeadline(String line) {
+        if (line.trim().equals("deadline")) {
             System.out.println("OOPS!! The description of a deadline cannot be empty.");
             //continue;
-        }
-        else {
+        } else {
             int divider = line.indexOf(" ");
             String action = line.substring(divider + 1);
 
             int divider2 = action.indexOf(" ");
-            String description =  action.substring(0, divider2);
+            String description = action.substring(0, divider2);
 
             String deadline = action.substring(divider2 + 1);
             int divider3 = deadline.indexOf(" ");
@@ -128,17 +144,16 @@ public class Duke {
     }
 
     //event method -- event action /at datetime
-    public static void callEvent(String line){
-        if (line.trim().equals("event")){
+    public static void callEvent(String line) {
+        if (line.trim().equals("event")) {
             System.out.println("OOPS!! The description of a event cannot be empty.");
             //continue;
-        }
-        else {
+        } else {
             int divider = line.indexOf(" ");
             String action = line.substring(divider + 1);
 
             int divider2 = action.indexOf(" ");
-            String description =  action.substring(0, divider2);
+            String description = action.substring(0, divider2);
 
             String deadline = action.substring(divider2 + 1);
             int divider3 = deadline.indexOf(" ");
@@ -152,9 +167,9 @@ public class Duke {
     }
 
     //delete task method
-    public static Task[] deleteTask(Task[] List, String line){
+    public static Task[] deleteTask(Task[] List, String line) {
         int divider = line.indexOf(" ");
-        String s = line.substring(divider+1);
+        String s = line.substring(divider + 1);
         int index = Integer.parseInt(s) - 1;
 
         System.out.println("Noted. I've removed this task: ");
@@ -184,5 +199,27 @@ public class Duke {
         // return the resultant array
         return anotherList;
     }
+
+    private static void printFileContents(String filePath) throws FileNotFoundException {
+        File f = new File(filePath); // create a File for the given file path
+        Scanner s = new Scanner(f); // create a Scanner using the File as the source
+        while (s.hasNext()) {
+            String content = s.nextLine();
+            if (content.contains("[T]")) {
+                callToDo(content);
+            } else if (content.contains("[D]")) {
+                callDeadline(content);
+            } else if (content.contains("[E]")) {
+                callEvent(content);
+            }
+        }
+    }
+
+    private static void writeToFile(String filePath, String textToAdd) throws IOException {
+        FileWriter fw = new FileWriter(filePath);
+        fw.write(textToAdd);
+        fw.close();
+    }
+
 
 }

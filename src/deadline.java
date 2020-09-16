@@ -18,4 +18,8 @@ public class deadline extends Task{
         printStatus();
         System.out.println("Now you have "+ TaskCount + " tasks in the list.");
     }
+
+    public String statusString(){
+        return "[D]" + isDone + " " + description + " -at: " + byDate;
+    }
 }

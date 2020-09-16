@@ -2,11 +2,12 @@ public class Task {
 
     protected String description;
     public static int TaskCount = 0 ;
-    protected boolean isDone;
+    protected String isDone;
+
 
     public Task(String description) {
         this.description = description;
-        isDone = false;
+        isDone = "[\u2718]";
         TaskCount+=1;
     }
 
@@ -23,22 +24,21 @@ public class Task {
     }
 
     public void setDone(){
-        this.isDone = true;
+        this.isDone = "[\u2713]";
     }
 
     public void printStatus(){
-        if (isDone){
-            String status ="[\u2713] " + description;
+            String status =isDone + " " + description;
             System.out.print(status);
-        }
-        else{
-            String status = "[\u2718] " + description;
-            System.out.print(status);
-        }
     }
 
     public void reduceTaskCount(){
         TaskCount-=1;
     }
+
+    public String statusString(){
+        return "successful";
+    }
+
 
 }

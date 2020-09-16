@@ -18,4 +18,9 @@ public class event extends Task{
         printStatus();
         System.out.println("Now you have "+ TaskCount + " tasks in the list.");
     }
+
+    public String statusString(){
+        return "[E]" + isDone + " " + description + " -at: " + byDate;
+    }
+
 }
