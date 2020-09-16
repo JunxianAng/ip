@@ -1,7 +1,7 @@
 public class Task {
 
     protected String description;
-    protected static int TaskCount = 0 ;
+    public static int TaskCount = 0 ;
     protected boolean isDone;
 
     public Task(String description) {
@@ -35,6 +35,10 @@ public class Task {
             String status = "[\u2718] " + description;
             System.out.print(status);
         }
+    }
+
+    public void reduceTaskCount(){
+        TaskCount-=1;
     }
 
 }

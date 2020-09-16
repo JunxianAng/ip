@@ -6,11 +6,6 @@ public class Duke {
     private static Task[] List = new Task[10]; //creating list of Task for inputs
     private static Boolean isBye = false;
 
-    //add task object into list
-    public static void addList(Task s){
-        List[Count] = s;
-    }
-
 
     public static void main(String[] args) {
         String logo = " ____        _        \n"
@@ -36,74 +31,158 @@ public class Duke {
 
             //print out list
             else if (line.equals("list")){
-                for (int i = 0; i< Count; i++){
-                    System.out.print((i+1) + ".");
-                    List[i].printStatus();
-                }
-                //continue;
+                callList();
             }
 
             // mark description in list as done
             else if (line.contains("done")){
-                int divider = line.indexOf(" ");
-                String index = line.substring(divider+1);
-                int x = Integer.parseInt(index);
-
-                List[x-1].setDone();
-
+                callDone(line);
             }
-
+            // delete task
+            else if (line.contains("delete")){
+                List = deleteTask(List,line);
+            }
+            //todo_
             else if (line.contains("todo")){
-                if (line.trim().equals("todo")){
-                    System.out.println("OOPS!! The description of a todo cannot be empty.");
-                    //continue;
-                }
-                else {
-                    int divider = line.indexOf(" ");
-                    String index = line.substring(divider + 1);
-
-                    addList(new Todo(index));
-                    List[Count].printAction();
-                    Count++;
-                    //continue;
-                }
+                callToDo(line);
             }
-
+            //deadline action /by datetime
             else if (line.contains("deadline")){
-                int divider = line.indexOf(" ");
-                String action = line.substring(divider + 1);
-
-                int divider2 = action.indexOf("/");
-                String action2 = action.substring(0,divider2 - 1);
-                String deadline =  action.substring(divider2 + 4);
-
-                addList(new deadline(action2,deadline));
-                List[Count].printAction();
-                Count++;
-                //continue;
+                callDeadline(line);
              }
-
+            //event action /at datetime
             else if (line.contains("event")){
-                int divider = line.indexOf(" ");
-                String action = line.substring(divider + 1);
-
-                int divider2 = action.indexOf("/");
-                String action2 = action.substring(0,divider2 - 1);
-                String deadline =  action.substring(divider2 + 4);
-
-                addList(new event(action2,deadline));
-                List[Count].printAction();
-                Count++;
-                //continue;
+                callEvent(line);
             }
 
             else {
                 System.out.println("OOPS!! I'm sorry, but I don't know what that means :-(");
                 //continue;
             }
-
         }
 
         System.out.println("Bye. Hope to see you again soon!");
     }
+
+    //add task object into list method
+    public static void addList(Task s){
+        List[Count] = s;
+    }
+
+    // print out list method
+    public static void callList(){
+        for (int i = 0; i< Count; i++){
+            System.out.print((i+1) + ".");
+            List[i].printStatus();
+        }
+    }
+
+    //set task done method
+    public static void callDone(String line){
+        int divider = line.indexOf(" ");
+        String index = line.substring(divider+1);
+        int x = Integer.parseInt(index);
+
+        List[x-1].setDone();
+    }
+
+    //todo method
+    public static void callToDo(String line){
+        if (line.trim().equals("todo")){
+            System.out.println("OOPS!! The description of a todo cannot be empty.");
+            //continue;
+        }
+        else {
+            int divider = line.indexOf(" ");
+            String index = line.substring(divider + 1);
+
+            addList(new Todo(index));
+            List[Count].printAction();
+            Count++;
+            //continue;
+        }
+    }
+
+    //deadline method -- deadline action /by datetime
+    public static void callDeadline(String line){
+        if (line.trim().equals("deadline")){
+            System.out.println("OOPS!! The description of a deadline cannot be empty.");
+            //continue;
+        }
+        else {
+            int divider = line.indexOf(" ");
+            String action = line.substring(divider + 1);
+
+            int divider2 = action.indexOf(" ");
+            String description =  action.substring(0, divider2);
+
+            String deadline = action.substring(divider2 + 1);
+            int divider3 = deadline.indexOf(" ");
+            String datetime = deadline.substring(divider3 + 1);
+
+            addList(new deadline(description, datetime));
+            List[Count].printAction();
+            Count++;
+            //continue;
+        }
+    }
+
+    //event method -- event action /at datetime
+    public static void callEvent(String line){
+        if (line.trim().equals("event")){
+            System.out.println("OOPS!! The description of a event cannot be empty.");
+            //continue;
+        }
+        else {
+            int divider = line.indexOf(" ");
+            String action = line.substring(divider + 1);
+
+            int divider2 = action.indexOf(" ");
+            String description =  action.substring(0, divider2);
+
+            String deadline = action.substring(divider2 + 1);
+            int divider3 = deadline.indexOf(" ");
+            String datetime = deadline.substring(divider3 + 1);
+
+            addList(new event(description, datetime));
+            List[Count].printAction();
+            Count++;
+            //continue;
+        }
+    }
+
+    //delete task method
+    public static Task[] deleteTask(Task[] List, String line){
+        int divider = line.indexOf(" ");
+        String s = line.substring(divider+1);
+        int index = Integer.parseInt(s) - 1;
+
+        System.out.println("Noted. I've removed this task: ");
+        List[index].printStatus();
+        List[index].reduceTaskCount();
+
+        // If the array is empty or the index is not in array range, return the original array
+        if (List == null || index < 0 || index >= List.length) {
+            return List;
+        }
+
+        // Create another array of size one less
+        Task[] anotherList = new Task[List.length - 1];
+
+        // Copy the elements except the index from original array to the other array
+        for (int i = 0, j = 0; i < List.length; i++) {
+            // if the index is found, remove element index
+            if (i == index) {
+                continue;
+            }
+            // if the index is not found
+            anotherList[j++] = List[i];
+        }
+        Count--; //reduce main array list count by 1
+
+        System.out.println("Now you have " + Count + " tasks in the list");
+        // return the resultant array
+        return anotherList;
+    }
+
 }
