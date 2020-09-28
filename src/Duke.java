@@ -70,12 +70,14 @@ public class Duke {
             else if (line.contains("event")){
                 callEvent(line);
             }
+            //error
             else {
                 System.out.println("OOPS!! I'm sorry, but I don't know what that means :-(");
                 //continue;
             }
         }
 
+        //write to file
         for (int i=0;i<Count;i++) {
             try {
                 writeToFile("tasks.txt", List[i].statusString());
@@ -228,6 +230,7 @@ public class Duke {
         return anotherList;
     }
 
+    //print file contents
     private static void printFileContents(String filePath) throws FileNotFoundException {
         File f = new File(filePath); // create a File for the given file path
         Scanner s = new Scanner(f); // create a Scanner using the File as the source
@@ -243,6 +246,8 @@ public class Duke {
         }
     }
 
+
+    //write file method
     private static void writeToFile(String filePath, String textToAdd) throws IOException {
         FileWriter fw = new FileWriter(filePath);
         fw.write(textToAdd);
