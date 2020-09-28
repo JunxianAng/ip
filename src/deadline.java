@@ -20,6 +20,6 @@ public class deadline extends Task{
     }
 
     public String statusString(){
-        return "[D]" + isDone + " " + description + " -at: " + byDate;
+        return "[D]" + isDone + " " + description + " -by: " + byDate;
     }
 }
