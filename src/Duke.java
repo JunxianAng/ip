@@ -45,6 +45,11 @@ public class Duke {
                 callList();
             }
 
+            //find task
+            else if (line.contains("find")){
+                findTask(line);
+            }
+
             // mark description in list as done
             else if (line.contains("done")){
                 callDone(line);
@@ -94,6 +99,30 @@ public class Duke {
         }
     }
 
+    // find task in list
+    public static void findTask(String line){
+        if (line.trim().equals("find")) {
+            System.out.println("OOPS!! The description of a find cannot be empty.");
+            //continue;
+        }else{
+            int divider = line.indexOf(" ");
+            String key = line.substring(divider + 1);
+            System.out.println("Here are the matching tasks in your list:");
+
+            int point = 1;
+
+            for (int i = 0; i < Count ; i++){
+                String status = List[i].statusString();
+                if (status.contains(key)){
+                    System.out.println(point + "." + List[i].statusString());
+                    point++;
+                }
+                //continue;
+            }
+            System.out.println("End of search");
+        }
+    }
+
     //set task done method
     public static void callDone(String line) {
         int divider = line.indexOf(" ");
@@ -128,10 +157,10 @@ public class Duke {
             int divider = line.indexOf(" ");
             String action = line.substring(divider + 1);
 
-            int divider2 = action.indexOf(" ");
-            String description = action.substring(0, divider2);
+            int divider2 = action.indexOf("by");
+            String description = action.substring(0, divider2-1);
 
-            String deadline = action.substring(divider2 + 1);
+            String deadline = action.substring(divider2);
             int divider3 = deadline.indexOf(" ");
             String datetime = deadline.substring(divider3 + 1);
 
@@ -151,10 +180,10 @@ public class Duke {
             int divider = line.indexOf(" ");
             String action = line.substring(divider + 1);
 
-            int divider2 = action.indexOf(" ");
-            String description = action.substring(0, divider2);
+            int divider2 = action.indexOf("at");
+            String description = action.substring(0, divider2-1);
 
-            String deadline = action.substring(divider2 + 1);
+            String deadline = action.substring(divider2);
             int divider3 = deadline.indexOf(" ");
             String datetime = deadline.substring(divider3 + 1);
 
