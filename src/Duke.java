@@ -20,11 +20,10 @@ public class Duke {
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
-        System.out.println("Hello from\n" + logo);
         System.out.println("Hello! I'm Duke");
 
         try {
-            printFileContents("src/tasks.txt");
+            printFileContents("tasks.txt");
         } catch (FileNotFoundException e) {
             System.out.println("tasks.txt file not found");
         }
@@ -74,7 +73,7 @@ public class Duke {
 
         for (int i=0;i<Count;i++) {
             try {
-                writeToFile("src/tasks.txt", List[i].statusString());
+                writeToFile("tasks.txt", List[i].statusString());
             } catch (IOException e) {
                 System.out.println("Something went wrong: " + e.getMessage());
             }
