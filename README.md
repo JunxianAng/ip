@@ -24,3 +24,16 @@ Prerequisites: JDK 11, update Intellij to the most recent version.
    | |_| | |_| |   <  __/
    |____/ \__,_|_|\_\___|
    ```
+## User Guide
+
+* Creates a list of task for user to keep track
+
+* Commands
+ * todo _description_
+ * deadline _description_ by
+ * event _description_ at
+ * list
+ * find _description_
+ * done _index_
+ * bye 
+
