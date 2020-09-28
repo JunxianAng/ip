@@ -21,9 +21,11 @@ public class Duke {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("Hello from\n" + logo);
         System.out.println("Hello! I'm Duke");
+        String basePath=System.getProperty("user.dir");
+        String path=basePath.concat("\\tasks.txt");
 
         try {
-            printFileContents("tasks.txt");
+            printFileContents(path);
         } catch (FileNotFoundException e) {
             System.out.println("tasks.txt file not found");
         }
@@ -77,10 +79,16 @@ public class Duke {
             }
         }
 
-        //write to file
+
+
+        try {
+            deleteFileContent(path);
+        }catch(IOException e){
+        }
+
         for (int i=0;i<Count;i++) {
             try {
-                writeToFile("tasks.txt", List[i].statusString());
+                writeToFile(path, List[i].statusString());
             } catch (IOException e) {
                 System.out.println("Something went wrong: " + e.getMessage());
             }
@@ -249,8 +257,15 @@ public class Duke {
 
     //write file method
     private static void writeToFile(String filePath, String textToAdd) throws IOException {
+        FileWriter fw = new FileWriter(filePath,true);
+        fw.write(textToAdd + "\n");
+        fw.close();
+    }
+
+    //delete content in file
+    private static void deleteFileContent(String filePath) throws IOException {
         FileWriter fw = new FileWriter(filePath);
-        fw.write(textToAdd);
+        fw.write("");
         fw.close();
     }
 
