@@ -37,11 +37,9 @@ Example of usage:
 
 Expected outcome:
 
-`Got it. I've added this task: 
-
-[D][✘] sleep -by: 10
-
-Now you have 2 tasks in the list.`
+`Got it. I've added this task: `
+`[D][✘] sleep -by: 10`
+`Now you have 2 tasks in the list.`
 
 ### `event` - adds task event with date
 
@@ -51,11 +49,11 @@ Example of usage:
 
 Expected outcome:
 
-`Got it. I've added this task: 
+`Got it. I've added this task:` 
 
-[E][✘] exercise -at: 5pm
+`[E][✘] exercise -at: 5pm`
 
-Now you have 3 tasks in the list.`
+`Now you have 3 tasks in the list.`
 
 ### `list` - prints out list of tasks
 
