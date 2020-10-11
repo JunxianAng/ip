@@ -6,6 +6,7 @@ public class Todo extends Task {
         super(description);
     }
 
+    //print status of a Todo task
     public void printStatus(){
         System.out.print("[T]");
         super.printStatus();
@@ -18,6 +19,7 @@ public class Todo extends Task {
         System.out.println("Now you have "+ TaskCount + " tasks in the list.");
     }
 
+    //return status of Todo Task
     public String statusString(){
         return "[T]" + isDone + " " + description;
     }

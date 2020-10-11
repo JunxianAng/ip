@@ -23,15 +23,18 @@ public class Task {
         System.out.println("Got it. I've added this task: ");
     }
 
+    //set task to done
     public void setDone(){
         this.isDone = "[\u2713]";
     }
 
+    //print status of task
     public void printStatus(){
             String status =isDone + " " + description;
             System.out.print(status);
     }
 
+    //delete task count by 1
     public void reduceTaskCount(){
         TaskCount-=1;
     }
@@ -39,6 +42,5 @@ public class Task {
     public String statusString(){
         return "successful";
     }
-
 
 }

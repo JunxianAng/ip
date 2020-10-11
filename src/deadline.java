@@ -7,6 +7,7 @@ public class deadline extends Task{
         this.byDate = byDate;
     }
 
+    //print status of deadline task
     public void printStatus(){
         System.out.print("[D]");
         super.printStatus();
@@ -19,6 +20,7 @@ public class deadline extends Task{
         System.out.println("Now you have "+ TaskCount + " tasks in the list.");
     }
 
+    //return status of deadline task as string
     public String statusString(){
         return "[D]" + isDone + " " + description + " -by: " + byDate;
     }

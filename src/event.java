@@ -7,6 +7,7 @@ public class event extends Task{
         this.byDate = byDate;
     }
 
+    //print status of event task
     public void printStatus(){
         System.out.print("[E]");
         super.printStatus();
@@ -19,6 +20,7 @@ public class event extends Task{
         System.out.println("Now you have "+ TaskCount + " tasks in the list.");
     }
 
+    //return status of event task as string
     public String statusString(){
         return "[E]" + isDone + " " + description + " -at: " + byDate;
     }

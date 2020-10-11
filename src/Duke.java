@@ -37,10 +37,12 @@ public class Duke {
         while (!isBye) {
             String line = in.nextLine();
 
+            //end programme
+            //list is only saved to txt file if user inputs bye
             if (line.equals("bye")) {
                 isBye = true;
                 break;
-            }//end programme
+            }
 
             //print out list
             else if (line.equals("list")){
@@ -54,24 +56,45 @@ public class Duke {
 
             // mark description in list as done
             else if (line.contains("done")){
-                callDone(line);
+                try{
+                    callDone(line);
+                }catch(NumberFormatException e){
+                    System.out.println("Please input in proper format!");
+                }
             }
+
             // delete task
             else if (line.contains("delete")){
-                List = deleteTask(List,line);
+                try{
+                    List = deleteTask(List,line);
+                }catch(NumberFormatException e){
+                    System.out.println("Please input in proper format!");
+                }
             }
+
             //todo_
             else if (line.contains("todo")){
                 callToDo(line);
             }
+
             //deadline action /by datetime
             else if (line.contains("deadline")){
-                callDeadline(line);
+                try{
+                    callDeadline(line);
+                }catch(StringIndexOutOfBoundsException e){
+                    System.out.println("Please input in deadline task in this format! e.g deadline action by date");
+                }
              }
+
             //event action /at datetime
             else if (line.contains("event")){
-                callEvent(line);
+                try{
+                    callEvent(line);
+                }catch(StringIndexOutOfBoundsException e){
+                    System.out.println("Please input in event task in this format! e.g event action at date");
+                }
             }
+
             //error
             else {
                 System.out.println("OOPS!! I'm sorry, but I don't know what that means :-(");
@@ -79,13 +102,13 @@ public class Duke {
             }
         }
 
-
-
+        //delete existing file
         try {
             deleteFileContent(path);
         }catch(IOException e){
         }
 
+        //Rewrite to new file based on console list
         for (int i=0;i<Count;i++) {
             try {
                 writeToFile(path, List[i].statusString());
@@ -101,22 +124,29 @@ public class Duke {
         List[Count] = s;
     }
 
-    // print out list method
+    //print out list of tasks method
     public static void callList() {
-        for (int i = 0; i < Count; i++) {
-            System.out.print((i + 1) + ".");
-            List[i].printStatus();
+        if (Count < 1){
+            System.out.println("Oops List is empty!");
+        }else {
+            for (int i = 0; i < Count; i++) {
+                System.out.print((i + 1) + ".");
+                List[i].printStatus();
+            }
         }
     }
 
-    // find task in list
+    //find task in list method
     public static void findTask(String line){
         if (line.trim().equals("find")) {
             System.out.println("OOPS!! The description of a find cannot be empty.");
             //continue;
-        }else{
-            int divider = line.indexOf(" ");
-            String key = line.substring(divider + 1);
+        }else if (Count < 1){
+            System.out.println("Oops List is empty!");
+        } else{
+            int divider = line.indexOf("find");
+            String key = line.substring(divider + 4);
+            key = key.trim();
             System.out.println("Here are the matching tasks in your list:");
 
             int point = 1;
@@ -135,11 +165,25 @@ public class Duke {
 
     //set task done method
     public static void callDone(String line) {
-        int divider = line.indexOf(" ");
-        String index = line.substring(divider + 1);
-        int x = Integer.parseInt(index);
+        if (line.trim().equals("done")) {
+            System.out.println("OOPS!! The description of done cannot be empty.");
+            //continue;
+        }else if (Count < 1){
+            System.out.println("Oops List is empty!");
+        }else {
+            int divider = line.indexOf(" ");
+            String index = line.substring(divider + 1);
+            int x = Integer.parseInt(index);
 
-        List[x - 1].setDone();
+            if (x < 1 || x > Count) {
+                System.out.println("Oops! unable to find task "+ x +" to delete!");
+                return;
+            }
+
+            List[x - 1].setDone();
+            System.out.println("Nice! I've marked this task as done:");
+            List[x-1].printStatus();
+        }
     }
 
     //todo method
@@ -148,8 +192,9 @@ public class Duke {
             System.out.println("OOPS!! The description of a todo cannot be empty.");
             //continue;
         } else {
-            int divider = line.indexOf(" ");
-            String index = line.substring(divider + 1);
+            int divider = line.indexOf("todo");
+            String index = line.substring(divider + 4);
+            index = index.trim();
 
             addList(new Todo(index));
             List[Count].printAction();
@@ -164,15 +209,18 @@ public class Duke {
             System.out.println("OOPS!! The description of a deadline cannot be empty.");
             //continue;
         } else {
-            int divider = line.indexOf(" ");
-            String action = line.substring(divider + 1);
+            int divider = line.indexOf("deadline");
+            String action = line.substring(divider + 8);
+            action = action.trim();
 
             int divider2 = action.indexOf("by");
-            String description = action.substring(0, divider2-1);
+            String description = action.substring(0, divider2);
+            description = description.trim();
 
             String deadline = action.substring(divider2);
-            int divider3 = deadline.indexOf(" ");
-            String datetime = deadline.substring(divider3 + 1);
+            int divider3 = deadline.indexOf("by");
+            String datetime = deadline.substring(divider3 + 2);
+            datetime = datetime.trim();
 
             addList(new deadline(description, datetime));
             List[Count].printAction();
@@ -187,15 +235,18 @@ public class Duke {
             System.out.println("OOPS!! The description of a event cannot be empty.");
             //continue;
         } else {
-            int divider = line.indexOf(" ");
-            String action = line.substring(divider + 1);
+            int divider = line.indexOf("event");
+            String action = line.substring(divider + 5);
+            action = action.trim();
 
             int divider2 = action.indexOf("at");
-            String description = action.substring(0, divider2-1);
+            String description = action.substring(0, divider2);
+            description = description.trim();
 
             String deadline = action.substring(divider2);
-            int divider3 = deadline.indexOf(" ");
-            String datetime = deadline.substring(divider3 + 1);
+            int divider3 = deadline.indexOf("at");
+            String datetime = deadline.substring(divider3 + 2);
+            datetime = datetime.trim();
 
             addList(new event(description, datetime));
             List[Count].printAction();
@@ -206,36 +257,46 @@ public class Duke {
 
     //delete task method
     public static Task[] deleteTask(Task[] List, String line) {
-        int divider = line.indexOf(" ");
-        String s = line.substring(divider + 1);
-        int index = Integer.parseInt(s) - 1;
-
-        System.out.println("Noted. I've removed this task: ");
-        List[index].printStatus();
-        List[index].reduceTaskCount();
-
-        // If the array is empty or the index is not in array range, return the original array
-        if (List == null || index < 0 || index >= List.length) {
+        if (line.trim().equals("delete")) {
+            System.out.println("OOPS!! The description of a delete cannot be empty.");
             return List;
-        }
+            //continue;
+        }else if(Count < 1){ // If the array is empty
+            System.out.println("Oops List is empty!");
+            return List;
+        }else {
+            int divider = line.indexOf(" ");
+            String s = line.substring(divider + 1);
+            int index = Integer.parseInt(s) - 1;
 
-        // Create another array of size one less
-        Task[] anotherList = new Task[List.length - 1];
-
-        // Copy the elements except the index from original array to the other array
-        for (int i = 0, j = 0; i < List.length; i++) {
-            // if the index is found, remove element index
-            if (i == index) {
-                continue;
+            // If index is not in array range, return the original array
+            if (index < 0 || index > Count - 1) {
+                System.out.println("Oops! unable to find task "+ (index + 1) +" to delete!");
+                return List;
             }
-            // if the index is not found
-            anotherList[j++] = List[i];
-        }
-        Count--; //reduce main array list count by 1
 
-        System.out.println("Now you have " + Count + " tasks in the list");
-        // return the resultant array
-        return anotherList;
+            System.out.println("Noted. I've removed this task: ");
+            List[index].printStatus();
+            List[index].reduceTaskCount();
+
+            // Create another array of size one less
+            Task[] anotherList = new Task[List.length - 1];
+
+            // Copy the elements except the index from original array to the other array
+            for (int i = 0, j = 0; i < List.length; i++) {
+                // if the index is found, remove element index
+                if (i == index) {
+                    continue;
+                }
+                // if the index is not found
+                anotherList[j++] = List[i];
+            }
+            Count--; //reduce main array list count by 1
+
+            System.out.println("Now you have " + Count + " tasks in the list");
+            // return the resultant array
+            return anotherList;
+        }
     }
 
     //print file contents
