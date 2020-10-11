@@ -23,11 +23,11 @@ Example of usage:
 
 Expected outcome:
 
-`Got it. I've added this task: 
+`Got it. I've added this task:`
 
-[T][Status:Not Done] lunch
+`[T][Status:Not Done] lunch`
 
-Now you have 1 tasks in the list.`
+`Now you have 1 tasks in the list.`
 
 ### `deadline` - adds task deadline with dates
 
