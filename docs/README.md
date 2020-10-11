@@ -24,7 +24,9 @@ Example of usage:
 Expected outcome:
 
 `Got it. I've added this task: 
+
 [T][✘] lunch
+
 Now you have 1 tasks in the list.`
 
 ### `deadline` - adds task deadline with dates
@@ -36,7 +38,9 @@ Example of usage:
 Expected outcome:
 
 `Got it. I've added this task: 
+
 [D][✘] sleep -by: 10
+
 Now you have 2 tasks in the list.`
 
 ### `event` - adds task event with date
@@ -48,7 +52,9 @@ Example of usage:
 Expected outcome:
 
 `Got it. I've added this task: 
+
 [E][✘] exercise -at: 5pm
+
 Now you have 3 tasks in the list.`
 
 ### `list` - prints out list of tasks
@@ -60,7 +66,9 @@ Example of usage:
 Expected outcome:
 
 `1.[T][✘] lunch
+
 2.[D][✘] sleep -by: 10
+
 3.[E][✘] exercise -at: 5pm`
 
 ### `find` - find tasks with matched description
@@ -72,7 +80,9 @@ Example of usage:
 Expected outcome:
 
 `Here are the matching tasks in your list:
+
 1.[D][✘] sleep -by: 10
+
 End of search`
 
 ### done`- set task as done
