@@ -25,7 +25,7 @@ Expected outcome:
 
 `Got it. I've added this task: 
 
-[T][✘] lunch
+[T][Status:Not Done] lunch
 
 Now you have 1 tasks in the list.`
 
@@ -38,7 +38,9 @@ Example of usage:
 Expected outcome:
 
 `Got it. I've added this task: `
-`[D][✘] sleep -by: 10`
+
+`[D][Status:Not Done] sleep -by: 10`
+
 `Now you have 2 tasks in the list.`
 
 ### `event` - adds task event with date
@@ -51,7 +53,7 @@ Expected outcome:
 
 `Got it. I've added this task:` 
 
-`[E][✘] exercise -at: 5pm`
+`[E][Status:Not Done] exercise -at: 5pm`
 
 `Now you have 3 tasks in the list.`
 
@@ -63,11 +65,11 @@ Example of usage:
 
 Expected outcome:
 
-`1.[T][✘] lunch
+`1.[T][Status:Not Done] lunch`
 
-2.[D][✘] sleep -by: 10
+`2.[D][Status:Not Done] sleep -by: 10`
 
-3.[E][✘] exercise -at: 5pm`
+`3.[E][Status:Not Done] exercise -at: 5pm`
 
 ### `find` - find tasks with matched description
 
@@ -77,17 +79,23 @@ Example of usage:
 
 Expected outcome:
 
-`Here are the matching tasks in your list:
+`Here are the matching tasks in your list:`
 
-1.[D][✘] sleep -by: 10
+`1.[D][Status:Not Done] sleep -by: 10`
 
-End of search`
+`End of search`
 
 ### done`- set task as done
 
 Example of usage: 
 
 `done 3`
+
+Expected outcome:
+
+`Nice! I've marked this task as done:`
+
+`[E][Status:Done] exercise -at: 5pm`
 
 ### `bye` - end task
 
