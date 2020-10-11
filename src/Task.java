@@ -7,7 +7,7 @@ public class Task {
 
     public Task(String description) {
         this.description = description;
-        isDone = "[\u2718]";
+        isDone = "[Status:Not Done]";
         TaskCount+=1;
     }
 
@@ -25,7 +25,7 @@ public class Task {
 
     //set task to done
     public void setDone(){
-        this.isDone = "[\u2713]";
+        this.isDone = "[Status:Done]";
     }
 
     //print status of task
